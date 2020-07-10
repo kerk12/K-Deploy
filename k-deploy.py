@@ -1,3 +1,4 @@
+#!/bin/env python3
 import os, sys
 import argparse
 try:
@@ -41,7 +42,13 @@ if parser.name in all_containers:
     print("Old container removed.")
 
 print("Creating new container...")
+extra_args = {}
+if parser.volumes:
+    extra_args["volumes"] = parser.volumes.split(" ")[1:]
+if parser.network:
+    extra_args["network"] = parser.network
+
 c_new = kd.create(parser.image, parser.name, \
-                volumes=parser.v.split(" ")[1:])
+                **extra_args)
 print("Container created successfully: ")
 print(c_new.id)
