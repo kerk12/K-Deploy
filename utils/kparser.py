@@ -11,6 +11,8 @@ _parser.add_argument('-v', '--volumes', type=str, \
     help="Volumes")
 _parser.add_argument('-n', '--network', type=str, \
     help="Networks to connect the container to.")
+_parser.add_argument('-p', '--ports', type=str, \
+    help="Ports to publish.")
 
 parser = _parser.parse_args()
 

@@ -1,4 +1,4 @@
-from utils.docker import split_image, parse_volumes
+from utils.docker import split_image, parse_volumes, parse_ports
 import docker
 from time import sleep
 
@@ -46,4 +46,6 @@ class KDeploy:
     def create(self, image, name, *args, **kwargs):
         if "volumes" in kwargs:
             kwargs["volumes"] = parse_volumes(kwargs.pop("volumes"))
+        if "ports" in kwargs:
+            kwargs["ports"] = parse_ports(kwargs.pop("ports"))
         return self.client.containers.run(image, name=name, detach=True, **kwargs)

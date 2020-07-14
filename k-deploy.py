@@ -47,6 +47,8 @@ if parser.volumes:
     extra_args["volumes"] = parser.volumes.split(" ")[1:]
 if parser.network:
     extra_args["network"] = parser.network
+if parser.ports:
+    extra_args["ports"] = parser.ports.split(" ")[1:]
 
 c_new = kd.create(parser.image, parser.name, \
                 **extra_args)

@@ -28,3 +28,15 @@ def parse_volumes(volumes):
 
         v_out[host_side] = {"bind": c_side, "mode": mode}
     return v_out
+
+def parse_ports(ports):
+    """
+    Parse the port definitions from argparse.
+    """
+    p_out = {}
+    for p in ports:
+        p_split = p.split(":")
+        host_side = p_split[0]
+        c_side = p_split[1]
+        p_out[c_side] = host_side
+    return p_out
