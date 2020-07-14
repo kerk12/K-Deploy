@@ -1,4 +1,4 @@
-from utils.docker import split_image, parse_volumes, parse_ports
+from utils.docker import split_image, parse_volumes, parse_ports, parse_env
 import docker
 from time import sleep
 
@@ -49,11 +49,8 @@ class KDeploy:
         container.stop()
 
     def create(self, image, name, *args, **kwargs):
-        if "volumes" in kwargs:
-            kwargs["volumes"] = parse_volumes(kwargs.pop("volumes"))
-        if "ports" in kwargs:
-            kwargs["ports"] = parse_ports(kwargs.pop("ports"))
         if "network" in kwargs:
             if kwargs["network"] not in self.get_networks_by_name():
                 raise ValueError("Error: Container network '{}' does not exist.".format(kwargs["network"]))
+        
         return self.client.containers.run(image, name=name, detach=True, **kwargs)

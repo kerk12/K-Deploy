@@ -17,6 +17,8 @@ _parser.add_argument('-n', '--network', type=str, \
     help="Networks to connect the container to.")
 _parser.add_argument('-p', '--ports', type=str, \
     help="Ports to publish.")
+_parser.add_argument('-e', '--env', type=str, \
+    help="Environment Variables in the form of 'VAR=somevalue'. Separated with spaces.")
 
 parser = _parser.parse_args()
 

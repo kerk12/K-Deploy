@@ -8,7 +8,7 @@ except ImportError:
     exit(1)
 
 from utils.kparser import parser
-from utils.docker import split_image
+from utils.docker import split_image, parse_env, parse_volumes, parse_ports
 from kdeploy.core import KDeploy
 from utils.std import eprint
 
@@ -46,6 +46,16 @@ def pull_image(kd, image):
 client = docker.from_env()
 kd = KDeploy(client)
 
+extra_args = {}
+if parser.volumes:
+    extra_args["volumes"] = parse_volumes(parser.volumes.split(" ")[1:])
+if parser.network:
+    extra_args["network"] = parser.network.lstrip()
+if parser.ports:
+    extra_args["ports"] = parse_ports(parser.ports.split(" ")[1:])
+if parser.env:
+    extra_args["environment"] = parse_env(parser.env)
+
 if parser.mode not in ['up', 'down']:
     raise ValueError("Invalid mode. Valid options are 'up', 'down'.")
 
@@ -63,13 +73,6 @@ if parser.mode == "up":
     rm_container(kd, name)
 
     print("Creating new container...")
-    extra_args = {}
-    if parser.volumes:
-        extra_args["volumes"] = parser.volumes.split(" ")[1:]
-    if parser.network:
-        extra_args["network"] = parser.network.lstrip()
-    if parser.ports:
-        extra_args["ports"] = parser.ports.split(" ")[1:]
 
     c_new = kd.create(image, name, \
                     **extra_args)

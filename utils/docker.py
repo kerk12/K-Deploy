@@ -1,4 +1,5 @@
 import os
+import re
 
 def split_image(image_raw):
     raw_split = image_raw.split(":")  # TODO Escape only the second occurence of the :. Some guys use registries on different ports.
@@ -46,3 +47,18 @@ def parse_ports(ports):
         c_side = p_split[1]
         p_out[c_side] = host_side
     return p_out
+
+def parse_env(env_in):
+    env_out = {}
+    reg = re.compile(r'^(?P<var_name>[A-Z0-9_\-]+)=(?P<var_value>.+)$')
+    env_all = env_in.split(" ")[1:]
+    for e in env_all:
+        match = reg.match(e.lstrip())
+        if not match:
+            raise ValueError("Invalid Environment variable supplied.")
+
+        var_name = match.group("var_name")
+        var_value = match.group("var_value")
+        env_out[var_name] = var_value
+        
+    return env_out
