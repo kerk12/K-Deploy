@@ -10,9 +10,21 @@
             "request": "launch",
             "program": "${workspaceFolder}/k-deploy.py",
             "args": [
-                "postgres:latest",
+                "up",
+                "nginx:latest",
                 "somenginx",
-                "-v /Users/kgiannakis/CodeLab/test:/usr/share/nginx/html /Users/kgiannakis/CodeLab/test:/usr/share/nginx/html2"
+                "-v /Users/kgiannakis/CodeLab/test:/usr/share/nginx/html /Users/kgiannakis/CodeLab/test:/usr/share/nginx/html2",
+                "-p 8080:80",
+            ],
+        },
+        {
+            "name": "Python: Take down",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/k-deploy.py",
+            "args": [
+                "down",
+                "somenginx",
             ],
         }
     ]
