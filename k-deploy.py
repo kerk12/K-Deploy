@@ -46,7 +46,7 @@ extra_args = {}
 if parser.volumes:
     extra_args["volumes"] = parser.volumes.split(" ")[1:]
 if parser.network:
-    extra_args["network"] = parser.network
+    extra_args["network"] = parser.network.lstrip()
 if parser.ports:
     extra_args["ports"] = parser.ports.split(" ")[1:]
 
