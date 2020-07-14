@@ -15,7 +15,7 @@ from utils.std import eprint
 print("""
 K-Deploy (Kuick Deploy)
 Developed by Kyriakos Giannakis (kgiannakis@kgiannakis.me). Blame him should anything happen (or don't)!
-
+Version 0.1.3a
 """)
 
 def stop_container(kd, name, raise_exc=True):
