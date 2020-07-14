@@ -12,7 +12,7 @@ def split_image(image_raw):
 
     return img_name, tag
 
-def parse_volumes(volumes):
+def parse_volumes(volumes, debug=False):
     """
     Parse volume definitions from argparse.
     """
@@ -37,9 +37,11 @@ def parse_volumes(volumes):
             pass
 
         v_out[host_side] = {"bind": c_side, "mode": mode}
+        if debug:
+            print("Binding directory '{}' to host's directory '{}'. Mode: {}".format(c_side, host_side, mode))
     return v_out
 
-def parse_ports(ports):
+def parse_ports(ports, debug=False):
     """
     Parse the port definitions from argparse.
     """
@@ -47,11 +49,13 @@ def parse_ports(ports):
     for p in ports:
         if p == "":
             continue
-        
+
         p_split = p.lstrip().split(":")
         host_side = int(p_split[0])
         c_side = int(p_split[1])
         p_out[c_side] = host_side
+        if debug:
+            print("Exposing port {} to host's port {}".format(c_side, host_side))
     return p_out
 
 def parse_env(env_in):

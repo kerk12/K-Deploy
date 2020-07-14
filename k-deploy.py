@@ -48,11 +48,13 @@ kd = KDeploy(client)
 
 extra_args = {}
 if parser.volumes:
-    extra_args["volumes"] = parse_volumes(parser.volumes.split(" "))
+    extra_args["volumes"] = parse_volumes(parser.volumes.split(" "), parser.debug)
 if parser.network:
+    if debug:
+        print("Container will join network '{}'".format(parser.network.lstrip()))
     extra_args["network"] = parser.network.lstrip()
 if parser.ports:
-    extra_args["ports"] = parse_ports(parser.ports.split(" "))
+    extra_args["ports"] = parse_ports(parser.ports.split(" "), parser.debug)
 if parser.env:
     extra_args["environment"] = parse_env(parser.env)
 

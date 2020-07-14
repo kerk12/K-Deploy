@@ -13,9 +13,10 @@
                 "up",
                 "nginx:latest",
                 "somenginx",
-                "-v /Users/kgiannakis/CodeLab/test:/usr/share/nginx/html /Users/kgiannakis/CodeLab/test:/usr/share/nginx/html2",
                 "-p 8080:80",
-                "-e SOMEVAL=helpmeh123asdf SOMEOTHERVAL=oasdofhaeljfnelqfgwf"
+                "-e SOMEVAL=helpmeh SOMETHER=helpmeh",
+                "-v /Users/kgiannakis/CodeLab/test:/usr/share/nginx/html /Users/kgiannakis/CodeLab/test:/usr/share/nginx/html2",
+                "--debug"
             ],
         },
         {
