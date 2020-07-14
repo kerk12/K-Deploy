@@ -1,3 +1,5 @@
+import os
+
 def split_image(image_raw):
     raw_split = image_raw.split(":")  # TODO Escape only the second occurence of the :. Some guys use registries on different ports.
     tag = None
@@ -17,6 +19,10 @@ def parse_volumes(volumes):
     for v in volumes:
         v_split = v.split(":")
         host_side = v_split[0].strip()
+
+        if not os.path.isdir(host_side):
+            raise FileNotFoundError("Error: Directory {} on the host side doesn't exist.".format(host_side))
+
         c_side = v_split[1].strip()
         mode = "rw"
         try:
