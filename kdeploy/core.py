@@ -39,6 +39,11 @@ class KDeploy:
         container.kill()
         return True
 
+    def get_networks_by_name(self):
+        n_out = {}
+        for n in self.client.networks.list():
+            n_out[n.name] = n
+        return n_out
 
     def stop_container(self, container):
         container.stop()
@@ -48,4 +53,7 @@ class KDeploy:
             kwargs["volumes"] = parse_volumes(kwargs.pop("volumes"))
         if "ports" in kwargs:
             kwargs["ports"] = parse_ports(kwargs.pop("ports"))
+        if "network" in kwargs:
+            if kwargs["network"] not in self.get_networks_by_name():
+                raise ValueError("Error: Container network '{}' does not exist.".format(kwargs["network"]))
         return self.client.containers.run(image, name=name, detach=True, **kwargs)
