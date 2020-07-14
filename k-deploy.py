@@ -48,11 +48,11 @@ kd = KDeploy(client)
 
 extra_args = {}
 if parser.volumes:
-    extra_args["volumes"] = parse_volumes(parser.volumes.split(" ")[1:])
+    extra_args["volumes"] = parse_volumes(parser.volumes.split(" "))
 if parser.network:
     extra_args["network"] = parser.network.lstrip()
 if parser.ports:
-    extra_args["ports"] = parse_ports(parser.ports.split(" ")[1:])
+    extra_args["ports"] = parse_ports(parser.ports.split(" "))
 if parser.env:
     extra_args["environment"] = parse_env(parser.env)
 

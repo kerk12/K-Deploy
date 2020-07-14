@@ -18,6 +18,9 @@ def parse_volumes(volumes):
     """
     v_out = {}
     for v in volumes:
+        if v == "":
+            continue
+
         v_split = v.split(":")
         host_side = v_split[0].strip()
 
@@ -42,17 +45,23 @@ def parse_ports(ports):
     """
     p_out = {}
     for p in ports:
-        p_split = p.split(":")
-        host_side = p_split[0]
-        c_side = p_split[1]
+        if p == "":
+            continue
+        
+        p_split = p.lstrip().split(":")
+        host_side = int(p_split[0])
+        c_side = int(p_split[1])
         p_out[c_side] = host_side
     return p_out
 
 def parse_env(env_in):
     env_out = {}
     reg = re.compile(r'^(?P<var_name>[A-Z0-9_\-]+)=(?P<var_value>.+)$')
-    env_all = env_in.split(" ")[1:]
+    env_all = env_in.split(" ")
     for e in env_all:
+        if e == "":
+            continue
+
         match = reg.match(e.lstrip())
         if not match:
             raise ValueError("Invalid Environment variable supplied.")
