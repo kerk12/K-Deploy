@@ -8,7 +8,7 @@ except ImportError:
     exit(1)
 
 from utils.kparser import parser
-from utils.docker import split_image, parse_env, parse_volumes, parse_ports
+from utils.docker import split_image, parse_env, parse_volumes, parse_ports, parse_restart
 from kdeploy.core import KDeploy
 from utils.std import eprint
 
@@ -57,6 +57,8 @@ if parser.ports:
     extra_args["ports"] = parse_ports(parser.ports.split(" "), parser.debug)
 if parser.env:
     extra_args["environment"] = parse_env(parser.env)
+if parser.restart:
+    extra_args["restart_policy"] = parse_restart(parser.restart.lstrip())
 
 if parser.mode not in ['up', 'down']:
     raise ValueError("Invalid mode. Valid options are 'up', 'down'.")

@@ -75,3 +75,13 @@ def parse_env(env_in):
         env_out[var_name] = var_value
         
     return env_out
+
+def parse_restart(rp, debug=False):
+    if rp not in ["always", "on-failure"]:
+        raise ValueError("Invalid restart policy. Only 'on-failure' and 'always' are supported.")
+    if debug:
+        print("'{}' restart policy will be applied.".format(rp))
+    rp_out = {"Name": rp}
+    if rp == "on-failure":
+        rp_out["MaximumRetryCount"] = 5
+    return rp_out
