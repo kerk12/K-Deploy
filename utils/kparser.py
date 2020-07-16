@@ -21,7 +21,8 @@ _parser.add_argument('-e', '--env', type=str, \
     help="Environment Variables in the form of 'VAR=somevalue'. Separated with spaces.")
 _parser.add_argument('--restart', type=str, \
     help="Restart Policy. Only 'on-failure' and 'always' are supported.")
-_parser.add_argument('-d', '--debug', action="store_true")
+_parser.add_argument('-d', '--debug', action="store_true", help="Debug mode.")
+_parser.add_argument('--no-pull', action="store_true", help="Don't pull the latest image.")
 
 parser = _parser.parse_args()
 

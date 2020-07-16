@@ -71,8 +71,8 @@ if parser.mode == "up":
     if not parser.image or not parser.name:
         raise ValueError("Please give a valid image and container name.")
     image = parser.image.lstrip()
-
-    pull_image(kd, image)
+    if not parser.no_pull:
+        pull_image(kd, image)
     stop_container(kd, name, False)
     rm_container(kd, name)
 
