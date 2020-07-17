@@ -6,6 +6,15 @@ class KDeploy:
     def __init__(self, docker_client : docker.client.DockerClient):
         self.client = docker_client
 
+    def get_images_by_name(self):
+        im_out = {}
+        for im in self.client.images.list():
+            try:
+                im_out[im.tags[0]] = im
+            except IndexError:
+                continue
+        return im_out
+
     def pull_image(self, image):
         img, tag = split_image(image)
         self.client.images.pull(img, tag)

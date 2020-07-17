@@ -35,7 +35,12 @@ def rm_container(kd, name):
         c_to_rm.remove()
         print("Old container removed.")
 
-def pull_image(kd, image):
+def pull_image(kd, image, pull=False):
+    if not pull:
+        if image in kd.get_images_by_name():
+            print("Using already existing image.")
+            return
+        print("Image {} not found locally.".format(image))
     print("Pulling {}".format(image))
     try:
         kd.pull_image(image)
@@ -71,8 +76,7 @@ if parser.mode == "up":
     if not parser.image or not parser.name:
         raise ValueError("Please give a valid image and container name.")
     image = parser.image.lstrip()
-    if not parser.no_pull:
-        pull_image(kd, image)
+    pull_image(kd, image, pull=parser.pull)
     stop_container(kd, name, False)
     rm_container(kd, name)
 

@@ -22,7 +22,7 @@ _parser.add_argument('-e', '--env', type=str, \
 _parser.add_argument('--restart', type=str, \
     help="Restart Policy. Only 'on-failure' and 'always' are supported.")
 _parser.add_argument('-d', '--debug', action="store_true", help="Debug mode.")
-_parser.add_argument('--no-pull', action="store_true", help="Don't pull the latest image.")
+_parser.add_argument('--pull', action="store_true", help="Always pull the latest image.")
 
 parser = _parser.parse_args()
 
