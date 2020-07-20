@@ -1,22 +1,23 @@
 #!/usr/bin/env python3
-import os, sys
-import argparse
+from utils.std import eprint
 try:
     import docker
 except ImportError:
-    print("Error: The 'docker' module isn't installed.", file=sys.stderr)
+    eprint("Error: The 'docker' module isn't installed.")
     exit(1)
 
 from utils.kparser import parser
-from utils.docker import split_image, parse_env, parse_volumes, parse_ports, parse_restart
+from utils.docker import parse_env, parse_volumes, parse_ports,\
+     parse_restart
 from kdeploy.core import KDeploy
-from utils.std import eprint
 
 print("""
 K-Deploy (Kuick Deploy)
-Developed by Kyriakos Giannakis (kgiannakis@kgiannakis.me). Blame him should anything happen (or don't)!
+Developed by Kyriakos Giannakis (kgiannakis@kgiannakis.me). Blame him should \
+anything happen (or don't)!
 Version 0.1.3a
 """)
+
 
 def stop_container(kd, name, raise_exc=True):
     running_containers = kd.get_running_containers_by_name()
@@ -26,7 +27,11 @@ def stop_container(kd, name, raise_exc=True):
         raise ValueError("Container '{}' not running.".format(name))
     print("Stopping old container.")
     killed = kd.check_and_stop(running_containers[name])
-    print("Killed container after not responding." if killed else "Container stopped.")
+    print(
+        "Killed container after not responding." if killed
+        else "Container stopped."
+        )
+
 
 def rm_container(kd, name):
     all_containers = kd.get_all_containers_by_name()
@@ -34,6 +39,7 @@ def rm_container(kd, name):
         c_to_rm = all_containers[name]
         c_to_rm.remove()
         print("Old container removed.")
+
 
 def pull_image(kd, image, pull=False):
     if not pull:
@@ -45,18 +51,29 @@ def pull_image(kd, image, pull=False):
     try:
         kd.pull_image(image)
     except docker.errors.ImageNotFound:
-        eprint("Error: Image not found. Either the image doesn't exist or you need to 'docker login' first.")
+        eprint(
+            "Error: Image not found. Either the image doesn't exist or you \
+            need to 'docker login' first."
+            )
         exit(1)
+
 
 client = docker.from_env()
 kd = KDeploy(client)
 
 extra_args = {}
 if parser.volumes:
-    extra_args["volumes"] = parse_volumes(parser.volumes.split(" "), parser.debug)
+    extra_args["volumes"] = parse_volumes(
+        parser.volumes.split(" "),
+        parser.debug
+        )
+
 if parser.network:
-    if debug:
-        print("Container will join network '{}'".format(parser.network.lstrip()))
+    if parser.debug:
+        print(
+            "Container will join network '{}'"
+            .format(parser.network.lstrip())
+            )
     extra_args["network"] = parser.network.lstrip()
 if parser.ports:
     extra_args["ports"] = parse_ports(parser.ports.split(" "), parser.debug)
@@ -82,8 +99,9 @@ if parser.mode == "up":
 
     print("Creating new container...")
 
-    c_new = kd.create(image, name, \
-                    **extra_args)
+    c_new = kd.create(
+        image, name, **extra_args
+        )
     print("Container created successfully: ")
     print(c_new.id)
 else:

@@ -1,9 +1,10 @@
-from utils.docker import split_image, parse_volumes, parse_ports, parse_env
+from utils.docker import split_image
 import docker
 from time import sleep
 
+
 class KDeploy:
-    def __init__(self, docker_client : docker.client.DockerClient):
+    def __init__(self, docker_client: docker.client.DockerClient):
         self.client = docker_client
 
     def get_images_by_name(self):
@@ -22,7 +23,7 @@ class KDeploy:
     def get_running_containers_by_name(self):
         containers = self.client.containers.list()
         return self._map_containers(containers)
-    
+
     def get_all_containers_by_name(self):
         containers = self.client.containers.list(all=True)
         return self._map_containers(containers)
@@ -60,6 +61,12 @@ class KDeploy:
     def create(self, image, name, *args, **kwargs):
         if "network" in kwargs:
             if kwargs["network"] not in self.get_networks_by_name():
-                raise ValueError("Error: Container network '{}' does not exist.".format(kwargs["network"]))
-        
-        return self.client.containers.run(image, name=name, detach=True, **kwargs)
+                raise ValueError(
+                            "Error: Container network '{}' does not exist."
+                            .format(kwargs["network"])
+                            )
+
+        return self.client.containers.run(
+            image, name=name, detach=True,
+            **kwargs
+            )

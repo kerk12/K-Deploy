@@ -1,8 +1,11 @@
 import os
 import re
 
+
 def split_image(image_raw):
-    raw_split = image_raw.split(":")  # TODO Escape only the second occurence of the :. Some guys use registries on different ports.
+    # TODO Escape only the second occurence of the :.
+    # Some guys use registries on different ports.
+    raw_split = image_raw.split(":")
     tag = None
     img_name = raw_split[0]
     try:
@@ -11,6 +14,7 @@ def split_image(image_raw):
         pass
 
     return img_name, tag
+
 
 def parse_volumes(volumes, debug=False):
     """
@@ -25,21 +29,30 @@ def parse_volumes(volumes, debug=False):
         host_side = v_split[0].strip()
 
         if not os.path.isdir(host_side):
-            raise FileNotFoundError("Error: Directory {} on the host side doesn't exist.".format(host_side))
+            raise FileNotFoundError(
+                "Error: Directory {} on the host side doesn't exist."
+                .format(host_side)
+            )
 
         c_side = v_split[1].strip()
         mode = "rw"
         try:
             mode = v_split[2].strip()
             if mode not in ["rw", "ro"]:
-                raise ValueError("Volume mode incorrect. Accepted values: rw, ro")
+                raise ValueError(
+                    "Volume mode incorrect. Accepted values: rw, ro"
+                )
         except IndexError:
             pass
 
         v_out[host_side] = {"bind": c_side, "mode": mode}
         if debug:
-            print("Binding directory '{}' to host's directory '{}'. Mode: {}".format(c_side, host_side, mode))
+            print(
+                "Binding directory '{}' to host's directory '{}'. Mode: {}"
+                .format(c_side, host_side, mode)
+                )
     return v_out
+
 
 def parse_ports(ports, debug=False):
     """
@@ -55,8 +68,12 @@ def parse_ports(ports, debug=False):
         c_side = int(p_split[1])
         p_out[c_side] = host_side
         if debug:
-            print("Exposing port {} to host's port {}".format(c_side, host_side))
+            print(
+                "Exposing port {} to host's port {}"
+                .format(c_side, host_side)
+            )
     return p_out
+
 
 def parse_env(env_in):
     env_out = {}
@@ -73,12 +90,16 @@ def parse_env(env_in):
         var_name = match.group("var_name")
         var_value = match.group("var_value")
         env_out[var_name] = var_value
-        
+
     return env_out
+
 
 def parse_restart(rp, debug=False):
     if rp not in ["always", "on-failure"]:
-        raise ValueError("Invalid restart policy. Only 'on-failure' and 'always' are supported.")
+        raise ValueError(
+            "Invalid restart policy. Only 'on-failure' and 'always' are \
+            supported."
+            )
     if debug:
         print("'{}' restart policy will be applied.".format(rp))
     rp_out = {"Name": rp}

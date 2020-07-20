@@ -1,5 +1,6 @@
 import sys
 
+
 def eprint(str_out):
     """
     Prints the given message to stderr.
