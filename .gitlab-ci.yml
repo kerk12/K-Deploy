@@ -1,0 +1,11 @@
+stages:
+  - test
+
+lint:
+   stage: test
+   image: docker:latest
+   services:
+     - docker:dind
+   script:
+       - "docker build -t kdeploy ."
+       - "docker run kdeploy flake8 ." 
