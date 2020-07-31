@@ -81,6 +81,13 @@ if parser.env:
     extra_args["environment"] = parse_env(parser.env)
 if parser.restart:
     extra_args["restart_policy"] = parse_restart(parser.restart.lstrip())
+if parser.command:
+    extra_args["command"] = parser.command.strip()
+    if parser.debug:
+        print(
+            "Executing the following command:\n{}"
+            .format(extra_args["command"])
+        )
 
 if parser.mode not in ['up', 'down']:
     raise ValueError("Invalid mode. Valid options are 'up', 'down'.")

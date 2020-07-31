@@ -57,4 +57,9 @@ _parser.add_argument(
     help="Always pull the latest image."
     )
 
+_parser.add_argument(
+    '-c', '--command', type=str,
+    help="Run the specified command in the container."
+    )
+
 parser = _parser.parse_args()
