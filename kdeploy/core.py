@@ -16,6 +16,22 @@ class KDeploy:
                 continue
         return im_out
 
+    def get_images_by_digest(self):
+        im_out = {}
+        for im in self.client.images.list():
+            try:
+                im_out[im.id] = im
+            except IndexError:
+                continue
+        return im_out
+
+    def is_image_present(self, name):
+        images = self.get_images_by_name()
+        for k, im in images.items():
+            if name in im.tags:
+                return im
+        return None
+
     def pull_image(self, image):
         img, tag = split_image(image)
         self.client.images.pull(img, tag)

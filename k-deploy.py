@@ -43,7 +43,7 @@ def rm_container(kd, name):
 
 def pull_image(kd, image, pull=False):
     if not pull:
-        if image in kd.get_images_by_name():
+        if kd.is_image_present(image) is not None:
             print("Using already existing image.")
             return
         print("Image {} not found locally.".format(image))
