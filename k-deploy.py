@@ -15,7 +15,7 @@ print("""
 K-Deploy (Kuick Deploy)
 Developed by Kyriakos Giannakis (kgiannakis@kgiannakis.me). Blame him should \
 anything happen (or don't)!
-Version 0.1.3a
+Version 0.1.5
 """)
 
 

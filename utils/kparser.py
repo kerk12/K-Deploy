@@ -33,7 +33,8 @@ _parser.add_argument(
 
 _parser.add_argument(
     '-p', '--ports', type=str,
-    help="Ports to publish."
+    help="Ports to publish. Currently only supports port numbers. \
+    Support for interfaces will be added in the near future."
     )
 
 _parser.add_argument(
