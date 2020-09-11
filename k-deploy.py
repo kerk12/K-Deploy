@@ -23,7 +23,7 @@ def stop_container(kd, name, raise_exc=True):
     running_containers = kd.get_running_containers_by_name()
     if name not in running_containers:
         if not raise_exc:
-            return
+            return False
         raise ValueError("Container '{}' not running.".format(name))
     print("Stopping old container.")
     killed = kd.check_and_stop(running_containers[name])
@@ -31,6 +31,7 @@ def stop_container(kd, name, raise_exc=True):
         "Killed container after not responding." if killed
         else "Container stopped."
         )
+    return True
 
 
 def rm_container(kd, name):
@@ -112,5 +113,5 @@ if parser.mode == "up":
     print("Container created successfully: ")
     print(c_new.id)
 else:
-    stop_container(kd, name)
+    stop_container(kd, name, False)
     rm_container(kd, name)
