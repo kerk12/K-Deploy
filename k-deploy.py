@@ -42,7 +42,7 @@ def rm_container(kd, name):
         print("Old container removed.")
 
 
-def pull_image(kd, image, pull=False):
+def pull_image(kd, image, pull=False, debug=False):
     if not pull:
         if kd.is_image_present(image) is not None:
             print("Using already existing image.")
@@ -56,6 +56,13 @@ def pull_image(kd, image, pull=False):
             "Error: Image not found. Either the image doesn't exist or you \
             need to 'docker login' first."
             )
+        exit(1)
+    except docker.errors.APIError as e:
+        eprint(
+            "An error has occured. Have you tried logging in to the registry? (docker login ...)"
+        )
+        if debug:
+            print(e)
         exit(1)
 
 
@@ -101,7 +108,7 @@ if parser.mode == "up":
     if not parser.image or not parser.name:
         raise ValueError("Please give a valid image and container name.")
     image = parser.image.lstrip()
-    pull_image(kd, image, pull=parser.pull)
+    pull_image(kd, image, pull=parser.pull, debug=parser.debug)
     stop_container(kd, name, False)
     rm_container(kd, name)
 
