@@ -11,11 +11,11 @@
             "program": "${workspaceFolder}/k-deploy.py",
             "args": [
                 "up",
-                "nginx:latest",
+                "registry.gitlab.com/konnektable-devops/backend-repository/concorde-v3-django:latest",
                 "somenginx",
                 "-p 8080:80",
                 "-e SOMEVAL=helpmeh SOMETHER=helpmeh",
-                "-v /Users/kgiannakis/CodeLab/test:/usr/share/nginx/html /Users/kgiannakis/CodeLab/test:/usr/share/nginx/html2",
+                "-v /home/kgiannakis/CodeLab/test:/usr/share/nginx/html /home/kgiannakis/CodeLab/test:/usr/share/nginx/html2",
                 "--debug"
             ],
         },

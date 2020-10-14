@@ -3,13 +3,24 @@ import re
 
 
 def split_image(image_raw):
-    # TODO Escape only the second occurence of the :.
-    # Some guys use registries on different ports.
-    raw_split = image_raw.split(":")
+    raw_split = image_raw.split(":")  # First split by the colon...
     tag = None
-    img_name = raw_split[0]
+    if len(raw_split) == 3:
+        # Then split the remainder by the forw. slash (/).
+        # The first element is the port.
+        port = raw_split[1].split("/")[0]
+        img_name = "{repo}:{port}/{image}".format(
+            repo=raw_split[0],
+            port=port,
+            # The image name is the rest of the remainder, minus the port, so...
+            # Split by /. The first element is the port, don't use it. Join the rest with slashes.
+            image="/".join(raw_split[1].split("/")[1:])
+        )
+    else:
+        img_name = raw_split[0]
     try:
-        tag = raw_split[1]
+        # The last element of the splitted raw is the tag.
+        tag = raw_split[-1]
     except IndexError:
         pass
 
