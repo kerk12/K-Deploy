@@ -87,6 +87,9 @@ def parse_ports(ports, debug=False):
 
 
 def parse_env(env_in):
+    """
+    Parses all environment variables into a map.
+    """
     env_out = {}
     reg = re.compile(r'^(?P<var_name>[A-Z0-9_\-]+)=(?P<var_value>.+)$')
     env_all = env_in.split(" ")
@@ -106,6 +109,9 @@ def parse_env(env_in):
 
 
 def parse_restart(rp, debug=False):
+    """
+    Parses the restart policy.
+    """
     if rp not in ["always", "on-failure"]:
         raise ValueError(
             "Invalid restart policy. Only 'on-failure' and 'always' are \
