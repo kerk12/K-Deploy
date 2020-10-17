@@ -7,12 +7,16 @@ _parser = argparse.ArgumentParser(
 _parser.add_argument(
     'mode', type=str,
     help="Whether to spin up or spin down the container. \
-    Valid arguments are 'up' and 'down'"
+    Valid arguments are 'up' and 'down'. \
+    Up tries to pull the image (if not found locally), \
+    stops the previous container (if exists) and spins \
+    up a new one."
     )
 
 _parser.add_argument(
     'image', type=str, nargs="?",
-    help="The image to be deployed."
+    help="The image to be deployed. Comes in the usual form of \
+    image_name:tag_name."
     )
 
 _parser.add_argument(
@@ -23,12 +27,14 @@ _parser.add_argument(
     )
 _parser.add_argument(
     '-v', '--volumes', type=str,
-    help="Volumes"
+    help="Volume definition in the form of \
+    /local/directory/:/container/directory. \
+    Volumes are separated by spaces."
     )
 
 _parser.add_argument(
     '-n', '--network', type=str,
-    help="Networks to connect the container to."
+    help="Network to connect the container to."
     )
 
 _parser.add_argument(
